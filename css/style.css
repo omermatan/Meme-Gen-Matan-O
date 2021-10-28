@@ -1,4 +1,25 @@
-body {background-color: rgb(26, 33, 49); color:rgb(43, 179, 31); text-align: center;}
-h2 {color:rgb(131, 219, 123); text-align: center;}
-table {align-items: center;}
 
+
+.grid-ontainer {
+    display: grid;
+    height: 100%;
+    width: 100%;
+
+}
+.article {
+    display: flex;
+}
+
+.canvas {
+    display: block;
+    margin: 0 auto;
+    background-color: antiquewhite;
+}
+
+.canvas-container {
+    background-color: skyblue;
+    margin: 0 auto;
+    width: 80%;
+    height: 70%;
+
+}
