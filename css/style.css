@@ -21,5 +21,21 @@
     margin: 0 auto;
     width: 80%;
     height: 70%;
-
 }
+
+.gallery-container {
+    display: grid;
+    grid-template-columns: repeat(2, 200px);
+    grid-auto-rows: minmax(200px, 1fr);
+    grid-gap: 12px;
+    grid-auto-flow: dense;
+    margin:12px;
+}
+
+.gallery-container img {
+    width: 200x;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 10px;
+   }
+
