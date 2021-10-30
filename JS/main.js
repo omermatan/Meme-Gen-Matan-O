@@ -6,6 +6,8 @@ var gCurrImg;
 const gDefaultX = 50;
 const gDefaultY = 50;
 const widgetsContainer = document.getElementById("widgets-container");
+const defaultLinesY = [50, 350, 200] 
+
 const defaultFirstLine = {
     text: 'Write something funny',
     size: 35,
@@ -13,7 +15,7 @@ const defaultFirstLine = {
     color: 'white',
     stroke: 'black',
     font: 'Impact',
-    pos: { x: 50, y: 50},
+    pos: { x: 200, y: defaultLinesY[0]},
     isDrag: false,
 }
 
@@ -51,8 +53,7 @@ var gMeme = {
     selectedImgUrl: '',
     selectedLineIdx: 0,
     lines: [defaultFirstLine]
-    
-}
+};
 
 function init() {
     gElCanvas = document.querySelector('canvas');
@@ -85,9 +86,10 @@ function drawTextOnCanvas({text, size, align, color, stroke, font, pos, isDrag})
     gCtx.lineWidth = 2;
     gCtx.strokeStyle = stroke;
     gCtx.fillStyle = color;
+    gCtx.textAlign = align;
     gCtx.font = `${size}px ${font}`;
-    gCtx.fillText(text, pos.x, pos.y);
-    gCtx.strokeText(text, pos.x, pos.y);
+    gCtx.fillText(text, 200, pos.y);
+    gCtx.strokeText(text, 200, pos.y);
 }
 
 function drawMemeImg(upperLayers = []) {
@@ -112,6 +114,12 @@ function handleTextInput(input, lineIndex){
     renderCanvas();
 } 
 
+function handleColorChage(input, lineIndex) {
+    const selectedColor = input.value;
+    const currentLine = gMeme.lines[lineIndex];
+    currentLine.color = selectedColor;
+    renderCanvas();
+}
 function increaseTextSize(lineIndex) {
     gMeme.lines[lineIndex].size *= 1.1;
     renderCanvas();
@@ -129,6 +137,7 @@ function moveTextYAxis(offset, lineIndex){
  }
  
 function addLine(){
+    const newLineIndex = gMeme.lines.length;
    const newLine = {
     text: 'Enter your Text', 
     size: 35,
@@ -136,23 +145,50 @@ function addLine(){
     color: 'white',
     stroke: 'black',
     font: 'Impact', 
-    pos: { x: 30, y: 30 },
+    pos: { x: 200, y:  defaultLinesY[newLineIndex] || 200},
     isdrag: false
 }
     gMeme.lines.push(newLine);
     renderTextEditorWidget();
     renderCanvas();
 }
+ 
 
 function renderTextEditorWidget(lineIndex) {
     const currentIndex = lineIndex ? lineIndex : gMeme.lines.length - 1;
     const widgetWrapper = document.createElement('div');
+    widgetWrapper.id =  `widget-wrapper-${currentIndex}`;
     renderButton({onClick: increaseTextSize, label: '+', lineIndex: currentIndex, parentElement: widgetWrapper})
     renderButton({onClick: decreaseTextSize, label: '-', lineIndex: currentIndex, parentElement: widgetWrapper})
     renderButton({onClick: () => moveTextYAxis(-5, currentIndex), label: 'up', lineIndex: currentIndex, parentElement: widgetWrapper})
     renderButton({onClick: () => moveTextYAxis(5, currentIndex), label: 'down', lineIndex: currentIndex, parentElement: widgetWrapper});
     renderTextInput({onInput: handleTextInput, lineIndex: currentIndex, parentElement: widgetWrapper});
+    renderColorPicker({onInput: handleColorChage, lineIndex: currentIndex, parentElement: widgetWrapper});
+    renderButton({onClick: deleteLine, label: 'Delete Line', lineIndex: currentIndex, parentElement: widgetWrapper})
+    renderButton({onClick: () => alignText('right',currentIndex), label: 'left', lineIndex: currentIndex, parentElement: widgetWrapper})
+    renderButton({onClick: () => alignText('left',currentIndex), label: 'right', lineIndex: currentIndex, parentElement: widgetWrapper})
+    renderButton({onClick: () => alignText('center',currentIndex), label: 'center', lineIndex: currentIndex, parentElement: widgetWrapper})
     widgetsContainer.appendChild(widgetWrapper);
+}
+
+function alignText(alignTo, lineIndex) {
+    const newAlign = alignTo;
+    const currentLine = gMeme.lines[lineIndex];
+    currentLine.align = newAlign;
+    renderCanvas();
+
+}
+
+function deleteLine(lineIndex) {
+    // delete from gMemelines
+    gMeme.lines.splice(lineIndex, 1);
+    if (gMeme.lines.length === 0) {addLine()}
+    // delete widget wrapper from dom
+    var widgetToDelete = document.getElementById(`widget-wrapper-${lineIndex}`);
+    widgetToDelete.remove();
+    // render canvas
+    renderCanvas();
+
 }
 
 function renderButton({onClick, label, lineIndex, parentElement}) {
@@ -168,6 +204,15 @@ function renderTextInput({onInput, lineIndex, parentElement}) {
     input.oninput = () => onInput(input, lineIndex);
     input.type ="text"
     input.value = gMeme.lines[lineIndex].text;
+    input.dataset.lineIndex = lineIndex;
+    parentElement.appendChild(input);
+}
+
+function renderColorPicker({onInput, lineIndex, parentElement}) {
+    const input = document.createElement('input');
+    input.oninput = () => onInput(input, lineIndex);
+    input.type ="color"
+    input.value = gMeme.lines[lineIndex].color;
     input.dataset.lineIndex = lineIndex;
     parentElement.appendChild(input);
 }
