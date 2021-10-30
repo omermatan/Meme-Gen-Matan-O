@@ -6,6 +6,16 @@ var gCurrImg;
 const gDefaultX = 50;
 const gDefaultY = 50;
 const widgetsContainer = document.getElementById("widgets-container");
+const defaultFirstLine = {
+    text: 'Write something funny',
+    size: 35,
+    align: 'center',
+    color: 'white',
+    stroke: 'black',
+    font: 'Impact',
+    pos: { x: 50, y: 50},
+    isDrag: false,
+}
 
 if (!widgetsContainer) {
     const altWidgetsContainer = document.createElement('section').id = "widgets-container";
@@ -40,38 +50,17 @@ function renderGallery() {
 var gMeme = {
     selectedImgUrl: '',
     selectedLineIdx: 0,
-    lines: [{
-        text: 'Write whatever you think is funny',
-        size: 35,
-        align: 'center',
-        color: 'white',
-        stroke: 'black',
-        font: 'Impact',
-        pos: { x: 30, y: 30 },
-        isDrag: false,
-    }]
+    lines: [defaultFirstLine]
     
 }
-
-function addLine(){
-    gMeme.lines.push({
-        text: 'Write whatever you think is funny',
-        size: 35,
-        align: 'center',
-        color: 'white',
-        stroke: 'black',
-        font: 'Impact',
-        pos: { x: 50, y: 50},
-        isDrag: false,
-    })
-}
-
 
 function init() {
     gElCanvas = document.querySelector('canvas');
     gCtx = gElCanvas.getContext('2d');
     renderGallery(); // will be removed to an intro page
     renderCanvas();
+    renderTextEditorWidget();
+
     // renerAllLines widget
 }
 
@@ -116,66 +105,59 @@ function downLoadCan(elLink) {
     elLink.download = 'meme';
 }
 
-function handleTextInput(input){
-    const id = +input.id;
+function handleTextInput(input, lineIndex){
     const text = input.value;
-    const currentLine = gMeme.lines[id];
+    const currentLine = gMeme.lines[lineIndex];
     currentLine.text = text;
     renderCanvas();
 } 
 
-function increaseTextSize() {
-    // read line index dynamically
-    gMeme.lines[0].size *= 1.1;
-    console.log(gMeme.lines[0].size);
+function increaseTextSize(lineIndex) {
+    gMeme.lines[lineIndex].size *= 1.1;
     renderCanvas();
 
 }
 
-function decreaseTextSize() {
-    // read line index dynamically
-    gMeme.lines[0].size *= 0.9;
+function decreaseTextSize(lineIndex) {
+    gMeme.lines[lineIndex].size *= 0.9;
     renderCanvas()
 }
 
-function moveTextYAxis(offset){
-    // read line index dynamically
-    gMeme.lines[0].pos.y += offset;
+function moveTextYAxis(offset, lineIndex){
+    gMeme.lines[lineIndex].pos.y += offset;
     renderCanvas();
  }
  
-
 function addLine(){
-    console.log('in addline')
-   var newLine = {
-        text: 'Write whatever you think is funny',
-        size: 35,
-        align: 'center',
-        color: 'white',
-        stroke: 'black',
-        font: 'Impact',
-        pos: { x: 30, y: 30 },
-        isDrag: false,
-    }
+   const newLine = {
+    text: 'Enter your Text', 
+    size: 35,
+    align: 'center',
+    color: 'white',
+    stroke: 'black',
+    font: 'Impact', 
+    pos: { x: 30, y: 30 },
+    isdrag: false
+}
+    gMeme.lines.push(newLine);
     renderTextEditorWidget();
+    renderCanvas();
 }
 
 function renderTextEditorWidget(lineIndex) {
-    console.log('in render widget')
     const currentIndex = lineIndex ? lineIndex : gMeme.lines.length - 1;
     const widgetWrapper = document.createElement('div');
     renderButton({onClick: increaseTextSize, label: '+', lineIndex: currentIndex, parentElement: widgetWrapper})
     renderButton({onClick: decreaseTextSize, label: '-', lineIndex: currentIndex, parentElement: widgetWrapper})
-    renderButton({onClick: () => moveTextYAxis(-5), label: 'up', lineIndex: currentIndex, parentElement: widgetWrapper})
-    renderButton({onClick: () => moveTextYAxis(5), label: 'down', lineIndex: currentIndex, parentElement: widgetWrapper});
+    renderButton({onClick: () => moveTextYAxis(-5, currentIndex), label: 'up', lineIndex: currentIndex, parentElement: widgetWrapper})
+    renderButton({onClick: () => moveTextYAxis(5, currentIndex), label: 'down', lineIndex: currentIndex, parentElement: widgetWrapper});
     renderTextInput({onInput: handleTextInput, lineIndex: currentIndex, parentElement: widgetWrapper});
     widgetsContainer.appendChild(widgetWrapper);
-
 }
 
 function renderButton({onClick, label, lineIndex, parentElement}) {
     const button = document.createElement('button');
-    button.onclick = onClick;
+    button.onclick = () => onClick(lineIndex);
     button.innerText = label;
     button.dataset.lineIndex = lineIndex;
     parentElement.appendChild(button)
@@ -183,8 +165,9 @@ function renderButton({onClick, label, lineIndex, parentElement}) {
 
 function renderTextInput({onInput, lineIndex, parentElement}) {
     const input = document.createElement('input');
-    input.oninput = () => onInput(input);
+    input.oninput = () => onInput(input, lineIndex);
     input.type ="text"
+    input.value = gMeme.lines[lineIndex].text;
     input.dataset.lineIndex = lineIndex;
     parentElement.appendChild(input);
 }
