@@ -7,30 +7,11 @@
     <title>Meme Gen</title>
     <link rel="stylesheet" href="css/style.css">
 </head>
-<body onload="init()">
-<h1>Memes</h1>
-    <section class="grid-container">
-      <div class="canvas-container">
-        <canvas id="our-canvas" class="canvas" width="400" height="400"></canvas>
-      </div>
-      <article class="header"><h2>head</h2></article>
-      
-      <article class="editor"><h2>head</h2></article>
-
-      <section id="widgets-container">
-      </section>
-      <button id="add-new-line" onclick="addLine()">Add new line</button>
-      <main class="main">
+<body onload="initGallery()">
+<h1>Memes Generator</h1>
       <section class="gallery">
-        <h1>Memes</h1>
         <section class="gallery-container"></section>
     </section>
-
-
-      <a href="#" onclick="downLoadCan(this)" download="myMeme">Download</a>
-
-
-    </section>
-    <script src="JS/main.js"></script>
+    <script src="JS/gallery.js"></script>
 </body>
 </html>

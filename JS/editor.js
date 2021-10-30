@@ -19,10 +19,10 @@ const defaultFirstLine = {
     isDrag: false,
 }
 
-if (!widgetsContainer) {
-    const altWidgetsContainer = document.createElement('section').id = "widgets-container";
-    document.body.appendChild(altWidgetsContainer);
-}
+// if (!widgetsContainer) {
+//     const altWidgetsContainer = document.createElement('section').id = "widgets-container";
+//     document.body.appendChild(altWidgetsContainer);
+// }
 
 var gImgs = [{id: 1, url: 'img/img01.jpeg', keywords: ['cute', 'funny']},
 {id: 2, url: 'img/img02.jpeg', keywords: ['weird', 'funny']},
@@ -55,14 +55,17 @@ var gMeme = {
     lines: [defaultFirstLine]
 };
 
-function init() {
+function initGallery() {
+    renderGallery(); 
+}
+
+function initEditor() {
+    const selectedImg = window.location.href.split('=')[1]
+    gMeme.selectedImgUrl = selectedImg;
     gElCanvas = document.querySelector('canvas');
     gCtx = gElCanvas.getContext('2d');
-    renderGallery(); // will be removed to an intro page
     renderCanvas();
     renderTextEditorWidget();
-
-    // renerAllLines widget
 }
 
 function clearCanvas() {
@@ -70,7 +73,8 @@ function clearCanvas() {
 } 
 function setCanvasImg(imgSrc){
     gMeme.selectedImgUrl = imgSrc;
-    renderCanvas();
+    console.log(gMeme)
+    window.location.href= `editor.html?selectedImg=${imgSrc}`
 }
 function renderCanvas(){
     clearCanvas();
