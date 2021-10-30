@@ -15,14 +15,17 @@
       </div>
       <article class="header"><h2>head</h2></article>
       <article class="editor"><h2>head</h2></article>
-      <sectiom>
-        <input type="text" class="input" id="0" placeholder="Enter text" oninput="handleTextInput(this)">
+
+
+      
+  <sectiom>
+        <input type="text" class="input" id="0" placeholder="Enter text" oninput="handleTextInput(this)" data-boza="1">
       <section>
       <button class="larger-text" title="+" onclick="textSizeIncrease()">+</button>
-      <button class="smaller-text" title="-" onclick="textSizeDecrease()">-</button>
-      <button class="add-line" title="add" onclick="addLine()">New Line</button>
-      <button class="move-text-up" title="up" onclick="moveTextUp()">^</button>
-      <button class="move-text-down" title="down" onclick="moveTextDown()">\/</button>
+      <button class="smaller-text" title="-" onclick="decreaseTextSize()">-</button>
+      <button class="add-line" title="add" onclick="addLine()">New Line</button>    
+      <button class="move-text-up" title="up" onclick="moveTextYAxis(-5)">^</button>
+      <button class="move-text-down" title="down" onclick="moveTextYAxis(5)">\/</button>
       <main class="main">
       <section class="gallery">
         <h1>Memes</h1>

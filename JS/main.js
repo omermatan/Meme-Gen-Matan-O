@@ -64,9 +64,9 @@ function addLine(){
 function init() {
     gElCanvas = document.querySelector('canvas');
     gCtx = gElCanvas.getContext('2d');
-    drawTextOnCanvas(gMeme.lines[0].text, 50, 50);
-    renderGallery();
-
+    renderGallery(); // will be removed to an intro page
+    renderCanvas();
+    // renerAllLines widget
 }
 
 function clearCanvas() {
@@ -78,29 +78,29 @@ function setCanvasImg(imgSrc){
 }
 function renderCanvas(){
     clearCanvas();
-    drawImg();
-    // rendere all line of text
+    const memeTopLayersRenderers = [renderAllLines]
+    drawMemeImg(memeTopLayersRenderers);
 }
 
+function renderAllLines(){
+    gMeme.lines.forEach(drawTextOnCanvas);
+}
 
-function drawTextOnCanvas(text, x, y) {
-    // setCanvasImg(gCurrImg);
-    gCtx.save()
+function drawTextOnCanvas({text, size, align, color, stroke, font, pos, isDrag}) {
     gCtx.lineWidth = 2;
-    gCtx.strokeStyle = 'black';
-    gCtx.fillStyle = 'white';
-    gCtx.font = `${gMeme.lines[0].size}px IMPACT`;
-    gCtx.fillText(text, x, y) 
-    gCtx.strokeText(text, x, y)
-    gCtx.restore();
+    gCtx.strokeStyle = stroke;
+    gCtx.fillStyle = color;
+    gCtx.font = `${size}px ${font}`;
+    gCtx.fillText(text, pos.x, pos.y);
+    gCtx.strokeText(text, pos.x, pos.y);
 }
 
-function drawImg() {
+function drawMemeImg(upperLayers = []) {
     const img = new Image();
     img.src = gMeme.selectedImgUrl;
     img.onload = () => {
         gCtx.drawImage(img, 0, 0, gElCanvas.width, gElCanvas.height);
-
+        upperLayers.forEach(renderFunc => renderFunc());
     };
 }
 
@@ -115,36 +115,29 @@ function handleTextInput(input){
     const text = input.value;
     const currentLine = gMeme.lines[id];
     currentLine.text = text;
-    // push actual object and not simplified string
-    drawTextOnCanvas(currentLine.text, 50, 50);
-    console.log(gMeme.lines)
+    renderCanvas();
 } 
 
 function textSizeIncrease() {
+    // read line index dynamically
     gMeme.lines[0].size *= 1.1;
-    drawTextOnCanvas(gMeme.lines[0].text, gDefaultX, gDefaultY)
     console.log(gMeme.lines[0].size);
+    renderCanvas();
 
 }
 
-function textSizeDecrease() {
+function decreaseTextSize() {
+    // read line index dynamically
     gMeme.lines[0].size *= 0.9;
-    drawTextOnCanvas(gMeme.lines[0].text, gDefaultX, gDefaultY)
-    console.log(gMeme.lines[0].size);
-
+    renderCanvas()
 }
 
-function moveTextUp() {
-    const currentTextPos = gMeme.lines[0].pos.y;
-    var moveBy = 5;
-    drawTextOnCanvas(gMeme.lines[0].text, gMeme.lines[0].pos.x , gMeme.lines[0].pos.y + moveBy);
-}
-
-function moveTextDown() {
-    const currentTextPos = gMeme.lines[0].pos.y;
-    var moveBy = 5;
-    drawTextOnCanvas(gMeme.lines[0].text, gMeme.lines[0].pos.x , gMeme.lines[0].pos.y - moveBy);
-}
+function moveTextYAxis(offset){
+    // read line index dynamically
+    gMeme.lines[0].pos.y += offset;
+    renderCanvas();
+ }
+ 
 
 function addLine(){
    var newLine = {
@@ -157,5 +150,10 @@ function addLine(){
         pos: { x: 30, y: 30 },
         isDrag: false,
     }
+// call a function that would create the relavent widget
+}
 
+function renderTextEditorWidget(lineIndex) {
+    const currentIndex = lineIndex ? lineIndex : gMeme.lines.length - 1;
+    
 }
