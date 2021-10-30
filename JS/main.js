@@ -5,6 +5,12 @@ var gCtx;
 var gCurrImg;
 const gDefaultX = 50;
 const gDefaultY = 50;
+const widgetsContainer = document.getElementById("widgets-container");
+
+if (!widgetsContainer) {
+    const altWidgetsContainer = document.createElement('section').id = "widgets-container";
+    document.body.appendChild(altWidgetsContainer);
+}
 
 var gImgs = [{id: 1, url: 'img/img01.jpeg', keywords: ['cute', 'funny']},
 {id: 2, url: 'img/img02.jpeg', keywords: ['weird', 'funny']},
@@ -118,7 +124,7 @@ function handleTextInput(input){
     renderCanvas();
 } 
 
-function textSizeIncrease() {
+function increaseTextSize() {
     // read line index dynamically
     gMeme.lines[0].size *= 1.1;
     console.log(gMeme.lines[0].size);
@@ -140,6 +146,7 @@ function moveTextYAxis(offset){
  
 
 function addLine(){
+    console.log('in addline')
    var newLine = {
         text: 'Write whatever you think is funny',
         size: 35,
@@ -150,10 +157,34 @@ function addLine(){
         pos: { x: 30, y: 30 },
         isDrag: false,
     }
-// call a function that would create the relavent widget
+    renderTextEditorWidget();
 }
 
 function renderTextEditorWidget(lineIndex) {
+    console.log('in render widget')
     const currentIndex = lineIndex ? lineIndex : gMeme.lines.length - 1;
-    
+    const widgetWrapper = document.createElement('div');
+    renderButton({onClick: increaseTextSize, label: '+', lineIndex: currentIndex, parentElement: widgetWrapper})
+    renderButton({onClick: decreaseTextSize, label: '-', lineIndex: currentIndex, parentElement: widgetWrapper})
+    renderButton({onClick: () => moveTextYAxis(-5), label: 'up', lineIndex: currentIndex, parentElement: widgetWrapper})
+    renderButton({onClick: () => moveTextYAxis(5), label: 'down', lineIndex: currentIndex, parentElement: widgetWrapper});
+    renderTextInput({onInput: handleTextInput, lineIndex: currentIndex, parentElement: widgetWrapper});
+    widgetsContainer.appendChild(widgetWrapper);
+
+}
+
+function renderButton({onClick, label, lineIndex, parentElement}) {
+    const button = document.createElement('button');
+    button.onclick = onClick;
+    button.innerText = label;
+    button.dataset.lineIndex = lineIndex;
+    parentElement.appendChild(button)
+}
+
+function renderTextInput({onInput, lineIndex, parentElement}) {
+    const input = document.createElement('input');
+    input.oninput = () => onInput(input);
+    input.type ="text"
+    input.dataset.lineIndex = lineIndex;
+    parentElement.appendChild(input);
 }
