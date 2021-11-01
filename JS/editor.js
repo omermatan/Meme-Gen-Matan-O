@@ -152,13 +152,10 @@ function alignText(alignTo, lineIndex) {
 }
 
 function deleteLine(lineIndex) {
-    // delete from gMemelines
     gMeme.lines.splice(lineIndex, 1);
     if (gMeme.lines.length === 0) {addLine()}
-    // delete widget wrapper from dom
     var widgetToDelete = document.getElementById(`widget-wrapper-${lineIndex}`);
     widgetToDelete.remove();
-    // render canvas
     renderCanvas();
 
 }
@@ -167,6 +164,7 @@ function renderButton({onClick, label, lineIndex, parentElement}) {
     const button = document.createElement('button');
     button.onclick = () => onClick(lineIndex);
     button.innerText = label;
+    button.className = 'editor-button';
     button.dataset.lineIndex = lineIndex;
     parentElement.appendChild(button)
 }
@@ -176,6 +174,7 @@ function renderTextInput({onInput, lineIndex, parentElement}) {
     input.oninput = () => onInput(input, lineIndex);
     input.type ="text"
     input.value = gMeme.lines[lineIndex].text;
+    input.className = 'Input-text';
     input.dataset.lineIndex = lineIndex;
     parentElement.appendChild(input);
 }

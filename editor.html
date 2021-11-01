@@ -8,16 +8,22 @@
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body onload="initEditor()">
-<h1>Edit your meme</h1>
+  <article class="editor-grid-container">
+    <div class="header">
+     <h1>Try to be FUNNY</h1>
+   </div>
       <div class="canvas-container">
-        <canvas id="our-canvas" class="canvas" width="400" height="400"></canvas>
+        <canvas class="canvas" id="our-canvas" class="canvas" width="400" height="400"></canvas>
       </div>
-      
+  </article>
+      <div class="buttons-container">
       <section id="widgets-container"></section>
-      
-      <button id="add-new-line" onclick="addLine()">Add new line</button>
-      <main class="main">
-      <a href="#" onclick="downLoadCan(this)" download="myMeme">Download</a>
+      </div>
+      <main class="main"></main>
+      <div class="add-download">
+      <button class="add-new-line" id="add-new-line" onclick="addLine()">Add new line</button>
+      <a class="download" href="#" onclick="downLoadCan(this)" download="myMeme">Download</a>
+      </div>
     <script src="JS/editor.js"></script>
 </body>
 </html>

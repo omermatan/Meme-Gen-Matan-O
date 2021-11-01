@@ -1,10 +1,27 @@
-
+html, body {
+    margin: 0;
+    padding: 0;
+}
+header {
+    background: #4c4c4c;
+    color: white;
+    height: 100px;
+}
 
 .grid-ontainer {
     display: grid;
-    height: 100%;
-    width: 100%;
+    width: 100vw;
+    height: 480px;
+    grid-row: 2;
+    grid-column: 2;
+}
 
+.gallery {
+    display: grid;
+    width: 100vw;
+    height: 480px;
+    grid-row: 4;
+    grid-column: 4;
 }
 .article {
     display: flex;
@@ -13,29 +30,181 @@
 .canvas {
     display: block;
     margin: 0 auto;
-    background-color: antiquewhite;
+    background: rgb(31, 30, 29);
+    margin-top: 20px;
+    padding: 5px;
+    border-width: 8px;
+    border-radius: 3%;
 }
 
 .canvas-container {
-    background-color: skyblue;
+    background: linear-gradient(to right, rgb(235, 199, 205) 0%, rgb(227, 200, 208) 50%, rgb(213, 198, 202) 100%);
     margin: 0 auto;
-    width: 80%;
-    height: 70%;
+    width: 100vw;
+    height: 480px;
+    grid-row: 2;
+    grid-column: 2;
+    align-content: center;
 }
-
+/* 
 .gallery-container {
     display: grid;
-    grid-template-columns: repeat(2, 200px);
+    grid-template-columns: repeat(4, 1fr);
     grid-auto-rows: minmax(200px, 1fr);
     grid-gap: 12px;
     grid-auto-flow: dense;
     margin:12px;
+} */
+
+.gallery-container {
+    display: flex;
 }
 
 .gallery-container img {
-    width: 200x;
-    height: 200px;
-    object-fit: cover;
-    border-radius: 10px;
-   }
+    display: block;
+    flex: 1;
+}
+
+.Input {
+    position: relative;
+    background: #eef5e9;
+    border-color: #d69b9b;
+  }
+
+.Input-text {
+    display:inline;
+    margin: 2px;
+    padding: 4px auto;
+    width: 200px;
+    height: 30px;
+    border-color:#d69b9b;
+    background: #f8dada;
+    border-width: px;
+    border-radius: 0.4rem;
+}
+
+.editor-button {
+    background: linear-gradient(to right, rgb(230, 30, 77) 0%, rgb(227, 28, 95) 50%, rgb(215, 4, 102) 100%);
+    color: #eef5e9;
+    border-radius: 8px;
+    padding: 8px 12px;
+    text-align: center;
+    font-size: 16px;
+    line-height: 20px;
+    -webkit-transition: background 1s ease-out;
+    -moz-transition: background 1s ease-out;
+    -o-transition: background 1s ease-out;
+    transition: background 1s ease-out;
+    box-shadow: none;
+    cursor: pointer;
+    border: none;
+    margin-right: 8px;
+}
+
+.editor-grid-container {
+    display: grid;
+    width: 100vw;
+    height: minmax(470px,50vh);
+    grid-auto-flow: dense;
+    grid-template-columns: repeat(4,1pr);
+    grid-template-rows: repeat(3,1pr);
+    justify-items: start;
+    align-items: flex-end;
+    /* grid-template-areas: 
+            '. . . header header header header . . .'
+            '. . . header header header header . . .'
+            '. . . header header header header . . .'
+            '. . . header header header header . . .'
+            '. . . canvas canvas canvas canvas . . .'
+            '. . . canvas canvas canvas canvas . . .'
+            '. . . canvas canvas canvas canvas . . .'
+            '. . . canvas canvas canvas canvas . . .'
+            '. . . canvas canvas canvas canvas . . .'
+            '. . . canvas canvas canvas canvas . . .'
+            ;
+} */
+}
+
+.header {
+    grid-area: header;
+    width: 100vw;
+    background: conic-gradient(rgb(105, 28, 47),rgb(133, 14, 73), rgb(236, 89, 31));
+    margin: auto;
+    grid-row: span 1;
+    grid-column: 2/3;
+    border: #4c4c4c;
+    
+
+}
+
+.h1 {
+    color: linear-gradient(to right, rgb(217, 238, 221) 0%, rgb(248, 210, 226) 50%, rgb(229, 247, 224) 100%);;
+    text-shadow: 2px 2px 4px #f5cece;
+    font-size: 10em;
+    margin: 0;
+    text-align: center;
+    font-family:Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+}
+
+
+
+.editor-button:hover {
+    background: linear-gradient(to right, rgb(221, 55, 133) 0%, rgb(236, 28, 167) 50%, rgb(197, 7, 156) 100%);;
+}
+
+.buttons-container {
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+}
+
+.add-download {
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+}
+
+.add-new-line {
+    background: linear-gradient(to right, rgb(25, 46, 28) 0%, rgb(51, 68, 51) 50%, rgb(69, 104, 58) 100%);
+    color: #eef5e9;
+    border-radius: 8px;
+    padding: 8px 8px;
+    text-align: center;
+    font-size: 16px;
+    line-height: 20px;
+    -webkit-transition: background 1s ease-out;
+    -moz-transition: background 1s ease-out;
+    -o-transition: background 1s ease-out;
+    transition: background 1s ease-out;
+    box-shadow: none;
+    cursor: pointer;
+    border: none;
+    margin: 4px 4px;
+}
+
+.add-new-line:hover {
+    background: linear-gradient(to right, rgb(56, 102, 63) 0%, rgb(96, 129, 96) 50%, rgb(53, 95, 40) 100%);
+}
+
+.download {
+    background: linear-gradient(to right, rgb(196, 219, 199) 0%, rgb(201, 235, 201) 50%, rgb(208, 247, 196) 100%);
+    color: #163004;
+    border-radius: 8px;
+    padding: 8px 8px;
+    text-align: center;
+    font-size: 18px;
+    line-height: 20px;
+    -webkit-transition: background 1s ease-out;
+    -moz-transition: background 1s ease-out;
+    -o-transition: background 1s ease-out;
+    transition: background 1s ease-out;
+    box-shadow: none;
+    cursor: pointer;
+    border: none;
+    margin: 4px 4px;
+}
+
+.download:hover {
+    background: linear-gradient(to right, rgb(112, 209, 127) 0%, rgb(148, 223, 148) 50%, rgb(142, 211, 121) 100%);
+}
 
