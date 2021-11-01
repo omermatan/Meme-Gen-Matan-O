@@ -3,9 +3,14 @@ html, body {
     padding: 0;
 }
 header {
-    background: #4c4c4c;
-    color: white;
-    height: 100px;
+    grid-area: header;
+    width: 100vw;
+    background: conic-gradient(rgb(105, 28, 47),rgb(133, 14, 73), rgb(236, 89, 31));
+    margin: auto;
+    grid-row: span 1;
+    grid-column: 2/3;
+    align-items: center;
+    border: #4c4c4c;
 }
 
 .grid-ontainer {
@@ -18,10 +23,17 @@ header {
 
 .gallery {
     display: grid;
-    width: 100vw;
-    height: 480px;
+    width: 80vw;
+    height: 200px;
     grid-row: 4;
     grid-column: 4;
+}
+.img {
+    width: 40px;
+    height: 150px;
+    grid-area: span 1;
+    margin: 0;
+    padding: 0 auto;
 }
 .article {
     display: flex;
@@ -130,6 +142,7 @@ header {
     width: 100vw;
     background: conic-gradient(rgb(105, 28, 47),rgb(133, 14, 73), rgb(236, 89, 31));
     margin: auto;
+    align-items: center;
     grid-row: span 1;
     grid-column: 2/3;
     border: #4c4c4c;

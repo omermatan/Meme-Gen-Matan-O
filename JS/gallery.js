@@ -20,7 +20,7 @@ function renderGallery() {
     var imgs = getImgs();
     var strHtml
     strHtml = imgs.map(img => {
-        return `<img src="${img.url}" onclick="setSelectedImg('${img.url}')">`
+        return `<img src="${img.url}" class="img" onclick="setSelectedImg('${img.url}')">`
     })
     document.querySelector('.gallery-container').innerHTML = strHtml.join('');
 }
